@@ -20,17 +20,25 @@ public class CustomerDAO {
     }
 
     public Customer addCustomer(Customer newCustomer){
+        for (Customer customer : bank){
+            if ( newCustomer.getAccountID() == customer.getAccountID()){
+                return null;
+            }
+        }
         bank.add(newCustomer);
         return newCustomer;
     }
-    public Customer deleteCustomer(Customer deletedCustomer){
-        System.out.println(bank.size());
-        if(bank.remove(deletedCustomer)){
-            System.out.println(bank.size());
+
+    public boolean deleteCustomer(Customer deletedCustomer){
+        for (Customer customer : bank){
+            if (deletedCustomer.getAccountID() == customer.getAccountID()){
+                bank.remove(customer);
+                return true;
+            }
         }
-        return deletedCustomer;
+        return false;
     }
-/*
+
     public Customer findCustomer (int accountID){
         for (Customer customer : bank) {
             if( accountID == customer.getAccountID()){
@@ -39,20 +47,12 @@ public class CustomerDAO {
         }
         return null;
     }
-    */
-
-    public Customer findCustomer (int accountID){
-        if (finder.containsKey(accountID)){
-            return finder.get(accountID);
-        }
-        return null;
-    }
 
 
-    public Customer updateCustomer(int accountID, Customer newCustomer){
+    public Customer updateCustomer( Customer newCustomer){
         for (Customer customer : bank){
-            if( accountID == customer.getAccountID()){
-                bank.remove(new CustomerDAO().findCustomer(accountID));
+            if( newCustomer.getAccountID() == customer.getAccountID()){
+                bank.remove(customer);
                 bank.add(newCustomer);
                  return newCustomer;
             }

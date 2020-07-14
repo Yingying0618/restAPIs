@@ -20,27 +20,40 @@ public class CustomerController {
     //Add a new customer
     @PostMapping(path="/addNewCustomer")
     public ResponseEntity addNewCustomer(@RequestBody Customer newCustomer){
-        customerDAO.addCustomer(newCustomer);
-        return new ResponseEntity<>("Create a new customer ", HttpStatus.CREATED);
+        Customer c = customerDAO.addCustomer(newCustomer);
+        if (c != null){
+            return new ResponseEntity<>("Created a new customer ", HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Customer already exist", HttpStatus.OK);
+
     }
 
     //Delete a customer
     @DeleteMapping(path = "/deleteCustomer")
     public ResponseEntity deleteCustomer(@RequestBody Customer deletedCustomer){
-        customerDAO.deleteCustomer(deletedCustomer);
-        return new ResponseEntity<>("Deleted a customer", HttpStatus.OK);
+        boolean status = customerDAO.deleteCustomer(deletedCustomer);
+        if (status == true) {
+            return new ResponseEntity<>("Deleted a customer", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Customer not found", HttpStatus.OK);
     }
 
     //find a specific customer
-    @GetMapping(path = "/findCustomer")
-    public ResponseEntity findCustomer(@RequestBody int accountID){
-        customerDAO.findCustomer(accountID);
-        return new ResponseEntity<>("Customer returned", HttpStatus.OK);
+    @GetMapping(path = "/findCustomer/{accountID}")
+    public ResponseEntity findCustomer(@PathVariable int accountID){
+        Customer c = customerDAO.findCustomer(accountID);
+        if (c != null){
+            return new ResponseEntity<>(c, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Customer not found", HttpStatus.OK);
     }
-    @PutMapping(path = "updateCustomer")
-    public ResponseEntity updateCustomer(@RequestBody int accountID, Customer newCustomer){
-        customerDAO.updateCustomer(accountID,newCustomer);
-        return new ResponseEntity<>("Customer info updated", HttpStatus.OK);
+    @PutMapping(path = "updateCustomer/{accountID}")
+    public ResponseEntity updateCustomer( @RequestBody Customer newCustomer){
+        Customer c = customerDAO.updateCustomer(newCustomer);
+        if (c != null){
+            return new ResponseEntity<>(c, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Customer not found", HttpStatus.OK);
     }
 
 }
