@@ -24,18 +24,18 @@ public class CustomerController {
         if (c != null){
             return new ResponseEntity<>("Created a new customer ", HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("Customer already exist", HttpStatus.OK);
+        return new ResponseEntity<>("CustomerID already exist", HttpStatus.OK);
 
     }
 
     //Delete a customer
-    @DeleteMapping(path = "/deleteCustomer")
-    public ResponseEntity deleteCustomer(@RequestBody Customer deletedCustomer){
-        boolean status = customerDAO.deleteCustomer(deletedCustomer);
+    @DeleteMapping(path = "/deleteCustomer/{accountID}")
+    public ResponseEntity deleteCustomer(@PathVariable int accountID){
+        boolean status = customerDAO.deleteCustomer(accountID);
         if (status == true) {
             return new ResponseEntity<>("Deleted a customer", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Customer not found", HttpStatus.OK);
+        return new ResponseEntity<>("CustomerID not found", HttpStatus.OK);
     }
 
     //find a specific customer
@@ -45,7 +45,7 @@ public class CustomerController {
         if (c != null){
             return new ResponseEntity<>(c, HttpStatus.OK);
         }
-        return new ResponseEntity<>("Customer not found", HttpStatus.OK);
+        return new ResponseEntity<>("CustomerID not found", HttpStatus.OK);
     }
     @PutMapping(path = "updateCustomer/{accountID}")
     public ResponseEntity updateCustomer( @RequestBody Customer newCustomer){
@@ -53,7 +53,7 @@ public class CustomerController {
         if (c != null){
             return new ResponseEntity<>(c, HttpStatus.OK);
         }
-        return new ResponseEntity<>("Customer not found", HttpStatus.OK);
+        return new ResponseEntity<>("CustomerID not found", HttpStatus.OK);
     }
 
 }

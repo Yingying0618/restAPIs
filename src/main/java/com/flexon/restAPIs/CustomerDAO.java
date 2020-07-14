@@ -3,16 +3,21 @@ package com.flexon.restAPIs;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 @Component
 public class CustomerDAO {
     private ArrayList <Customer> bank = new ArrayList<>();
-    private HashMap<Integer,Customer> finder = new HashMap<>();
+    //private HashMap<Integer,Customer> finder = new HashMap<>();
 
+    //add customer to DAO
     public CustomerDAO (){
         bank.add( new Customer(1,"Kelly", "Liu",
                 "123456@gmail.com", 123456789));
+        bank.add( new Customer(2,"Kate", "Yan",
+                "Kate.Yan@gmail.com", 987654321));
+        bank.add( new Customer(3,"Jerry", "Water",
+                "Jerry.Water@gmail.com", 252525335));
     }
 
     public ArrayList<Customer> getAllCustomer() {
@@ -29,9 +34,9 @@ public class CustomerDAO {
         return newCustomer;
     }
 
-    public boolean deleteCustomer(Customer deletedCustomer){
+    public boolean deleteCustomer(int accountID){
         for (Customer customer : bank){
-            if (deletedCustomer.getAccountID() == customer.getAccountID()){
+            if (accountID == customer.getAccountID()){
                 bank.remove(customer);
                 return true;
             }
